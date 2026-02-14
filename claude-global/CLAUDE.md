@@ -199,10 +199,17 @@ If DP-1 shows black wallpaper after connecting:
 
 **Version**: 0.44.0-1
 **Config**: `~/.config/kitty/kitty.conf`
+**Font**: CaskaydiaCove Nerd Font Mono
+**Font Size**: 12.0
 
 **Configuration**:
 ```conf
 include hyde.conf    # Includes HyDE theme integration
+
+# Font settings (in hyde.conf)
+font_family CaskaydiaCove Nerd Font Mono
+font_size 12.0
+window_padding_width 25
 
 # Tab bar styling
 tab_bar_edge = bottom
