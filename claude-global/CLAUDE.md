@@ -4,6 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## Claude Behavior Instructions
+
+- **Always benchmark before and after performance-related changes.** Run the relevant benchmark command before touching anything, record the result, make the change, then benchmark again to show the actual improvement.
+
+---
+
 # Arch Linux System Configuration
 ## Personal Setup Documentation for pranava-mk
 
@@ -190,6 +196,17 @@ If DP-1 shows black wallpaper after connecting:
 - Service: `hyde-Hyprland-bar.service`
 - Don't start waybar manually (causes duplicate bars)
 - Restart: `systemctl --user restart hyde-Hyprland-bar.service`
+
+**Layout**: Personal split-pill layout (`~/.config/waybar/config.jsonc`)
+- Left pill: `hyprland/workspaces`
+- Center pill: `custom/cava`, `idle_inhibitor`, `clock`
+- Right pill (general): `backlight`, `pulseaudio`, `pulseaudio#microphone`, `battery`, `custom/hyprsunset`
+- Right pill (tray): `tray`
+- Right pill (menu): `custom/hyde-menu`, `custom/power`
+
+**Removed modules** (covered by keybindings):
+- `custom/keybindhint` — use `Super+/` instead
+- `custom/cliphist` — use `Super+V` / `Super+Shift+V` instead
 
 ---
 
