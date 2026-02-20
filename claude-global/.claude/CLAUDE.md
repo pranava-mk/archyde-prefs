@@ -910,12 +910,12 @@ systemctl --user restart hyde-Hyprland-bar.service
 ## System Issues Documentation
 
 Critical system issues and their resolutions are documented in:
-`~/Documents/archhyde-issues-fixes/` → symlinked via stow from `~/archyde-prefs/archhyde-issues-fixes/`
+`~/Documents/archyde-issues-fixes/` → symlinked via stow from `~/archyde-prefs/archyde-issues-fixes/`
 
 This directory is a **separate git repository** — commit new logs after adding them.
 
 ```bash
-cd ~/Documents/archhyde-issues-fixes
+cd ~/Documents/archyde-issues-fixes
 git add . && git commit -m "log: <brief description>"
 git log --oneline   # view history
 ```
