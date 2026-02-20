@@ -910,7 +910,15 @@ systemctl --user restart hyde-Hyprland-bar.service
 ## System Issues Documentation
 
 Critical system issues and their resolutions are documented in:
-`/home/cruxx/Documents/system-issues-fixes/`
+`~/Documents/archhyde-issues-fixes/` → symlinked via stow from `~/archyde-prefs/archhyde-issues-fixes/`
+
+This directory is a **separate git repository** — commit new logs after adding them.
+
+```bash
+cd ~/Documents/archhyde-issues-fixes
+git add . && git commit -m "log: <brief description>"
+git log --oneline   # view history
+```
 
 This directory includes:
 - **Boot failures** and recovery procedures
@@ -924,10 +932,17 @@ Each incident is documented with:
 - Lessons learned and prevention strategies
 - Verification commands
 
+**Naming convention**: `YYYY-MM-DD_short-description.md`
+
+**When Claude fixes a system issue**, always create a log file here and commit it.
+
 **Recent incidents**:
 - `2026-02-13_boot-failure-after-upgrade.md` - Boot crash after kernel upgrade, missing intel-ucode
 - `2026-02-13_hyprland-config-errors.md` - Persistent error notifications from invalid source statements
 - `2026-02-13_hyprland-windowrules-syntax-v053.md` - 403+ config errors from Hyprland 0.53 syntax rewrite
+- `2026-02-20_flameshot-kvantum-crash.md` - Flameshot Kvantum/Wayland crash, switched to grimblast+satty
+
+**Git remote**: set up with `git remote add origin <your-remote>` once you create the repo on GitHub.
 
 ---
 
