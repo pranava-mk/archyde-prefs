@@ -385,10 +385,11 @@ Automatic CPU frequency and power management for laptops
 - **fastfetch**: System information display
 
 ### Screenshots & Screen Capture
-- **Flameshot**: Screenshot tool
-- **grim**: Wayland screenshot utility
-- **slurp**: Select screen region for screenshots
-- **satty**: Screenshot annotation
+- **grimblast**: Screenshot tool (HyDE bundled, native Wayland) — replaces Flameshot
+- **satty**: Screenshot annotation (opens after capture for markup)
+- **grim**: Wayland screenshot utility (used by grimblast)
+- **slurp**: Select screen region (used by grimblast)
+- ~~**Flameshot**~~: Removed — crashes due to Kvantum/XWayland segfault on Hyprland (see `~/Documents/archyde-issues-fixes/2026-02-20_flameshot-kvantum-crash.md`)
 
 ### Clipboard Management
 - **cliphist**: Clipboard history for Wayland
@@ -714,9 +715,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 | Keybinding | Action |
 |------------|--------|
 | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> | Color picker (hyprpicker) |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | Flameshot screenshot GUI |
-| <kbd>Super</kbd> + <kbd>Print</kbd> | Flameshot fullscreen |
-| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>Print</kbd> | Flameshot screen to clipboard |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> | Freeze screen, select region → save + open in satty |
+| <kbd>Super</kbd> + <kbd>Print</kbd> | Full screenshot → save + open in satty |
+| <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>Print</kbd> | Full screen straight to clipboard |
 
 ### Theming & Wallpaper
 
