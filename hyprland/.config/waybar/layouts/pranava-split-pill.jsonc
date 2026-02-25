@@ -45,7 +45,6 @@
     "modules-right": [
         "group/pill#sysinfo",
         "group/pill#updates",
-        "group/pill#network",
         "group/pill#audio",
         "group/pill#battery",
         "group/pill#tray",
@@ -67,26 +66,6 @@
         "modules": [
             "custom/updates"
         ]
-    },
-
-    // wifi pill — lock icon appears natively when VPN is active
-    "group/pill#network": {
-        "orientation": "inherit",
-        "modules": [
-            "network"
-        ]
-    },
-
-    // network: remove format-alt so clicking doesn't show bandwidth
-    "network": {
-        "tooltip": true,
-        "format-wifi": "\uf1eb ",
-        "format-ethernet": "\udb80\ude00 ",
-        "format-linked": "\udb80\ude00 {ifname} (No IP)",
-        "format-disconnected": "\udb81\uddaa ",
-        "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>",
-        "tooltip-format-disconnected": "Disconnected",
-        "interval": 2
     },
 
     // battery: format-alt mirrors format so click-toggle has no visible effect

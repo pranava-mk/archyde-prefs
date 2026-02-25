@@ -31,7 +31,6 @@ LEFT                          CENTER                RIGHT
 |---|---|---|
 | `pill#sysinfo` | `cpu`, `memory` | CPU % (10s interval), RAM used GB (30s interval) |
 | `pill#updates` | `custom/updates` | Pending pacman+AUR update count. Polls once per day. Click to open updater. Tooltip shows package list |
-| `pill#network` | `network` | WiFi icon; native lock symbol appears when VPN is active. No bandwidth display on click |
 | `pill#audio` | `pulseaudio`, `pulseaudio#microphone` | Speaker + mic volume |
 | `pill#battery` | `battery` | Always shows `icon + %`. See override below |
 | `pill#tray` | `tray` | System tray icons |
@@ -81,6 +80,7 @@ Native lock symbol in the wifi icon indicates VPN is active; no separate vpn mod
 | `bluetooth` | Removed from network pill — icon showed connected device count with no way to suppress it without the override being ignored |
 | `custom/mediaplayer` | Clutters center pill; YouTube Music / Spotify controllable via media keys |
 | `custom/vpn` | Redundant — wifi module natively shows a lock symbol when VPN is active |
+| `network` / `pill#network` | Removed entirely — not needed on bar |
 | `network#bandwidth` | Not needed — network speed display removed |
 | `power-profiles-daemon` | Using `auto-cpufreq` instead |
 
