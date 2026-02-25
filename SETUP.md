@@ -6,16 +6,27 @@ Quick reference for managing the documentation repository.
 
 ## Current Setup
 
-✅ **Repository**: `~/docs-repo/`
+✅ **Repository**: `~/archyde-prefs/`
 ✅ **Git initialized**: Yes
-✅ **Symlinks created**: Yes
+✅ **Remote**: `git@github.com:pranava-mk/archyde-prefs.git`
+✅ **Symlinks managed via**: GNU Stow
+
+### Stow Packages
+
+| Package | Source | Target |
+|---|---|---|
+| `hyprland` | `~/archyde-prefs/hyprland/.config/` | `~/.config/` |
+| `claude-global` | `~/archyde-prefs/claude-global/.claude/` | `~/.claude/` |
+| `archyde-issues-fixes` | `~/archyde-prefs/archyde-issues-fixes/Documents/` | `~/Documents/` |
 
 ### Symlinks Active
 
 ```bash
-~/.config/hypr/CLAUDE.md → ~/docs-repo/hyprland/CLAUDE.md
-~/.claude/CLAUDE.md → ~/docs-repo/claude-global/CLAUDE.md
-~/Documents/system-issues-fixes/*.md → ~/docs-repo/system-issues/*.md
+~/.config/hypr/CLAUDE.md              → ~/archyde-prefs/hyprland/.config/hypr/CLAUDE.md
+~/.config/waybar/layouts/pranava-split-pill.jsonc
+                                       → ~/archyde-prefs/hyprland/.config/waybar/layouts/pranava-split-pill.jsonc
+~/.claude/CLAUDE.md                   → ~/archyde-prefs/claude-global/.claude/CLAUDE.md
+~/Documents/archyde-issues-fixes/     → ~/archyde-prefs/archyde-issues-fixes/Documents/archyde-issues-fixes/
 ```
 
 ---
@@ -40,7 +51,7 @@ micro ~/Documents/system-issues-fixes/2026-02-XX_issue-name.md
 ### 2. Check What Changed
 
 ```bash
-cd ~/docs-repo
+cd ~/archyde-prefs
 git status
 git diff
 ```
@@ -48,15 +59,15 @@ git diff
 ### 3. Commit Changes
 
 ```bash
-cd ~/docs-repo
+cd ~/archyde-prefs
 git add -A
 git commit -m "Descriptive commit message"
 ```
 
-### 4. Push to Remote (after setup)
+### 4. Push to Remote
 
 ```bash
-cd ~/docs-repo
+cd ~/archyde-prefs
 git push
 ```
 
@@ -111,24 +122,23 @@ git push -u origin main
 ### 1. Clone Repository
 
 ```bash
-git clone git@github.com:pranava-mk/arch-docs.git ~/docs-repo
+git clone git@github.com:pranava-mk/archyde-prefs.git ~/archyde-prefs
 ```
 
-### 2. Create Symlinks
+### 2. Create Symlinks via Stow
 
 ```bash
-# Hyprland CLAUDE.md
-ln -sf ~/docs-repo/hyprland/CLAUDE.md ~/.config/hypr/CLAUDE.md
+cd ~/archyde-prefs
 
-# Global CLAUDE.md
-ln -sf ~/docs-repo/claude-global/CLAUDE.md ~/.claude/CLAUDE.md
+# Remove any existing files that stow will replace
+rm -f ~/.config/hypr/CLAUDE.md
+rm -f ~/.claude/CLAUDE.md
+rm -f ~/.config/waybar/layouts/pranava-split-pill.jsonc
 
-# System issues (all .md files)
-mkdir -p ~/Documents/system-issues-fixes
-cd ~/docs-repo/system-issues
-for file in *.md; do
-    ln -sf ~/docs-repo/system-issues/"$file" ~/Documents/system-issues-fixes/"$file"
-done
+# Apply all stow packages
+stow --target ~ hyprland
+stow --target ~ claude-global
+stow --target ~ archyde-issues-fixes
 ```
 
 ### 3. Verify Symlinks
@@ -136,7 +146,8 @@ done
 ```bash
 ls -la ~/.config/hypr/CLAUDE.md
 ls -la ~/.claude/CLAUDE.md
-ls -la ~/Documents/system-issues-fixes/
+ls -la ~/.config/waybar/layouts/pranava-split-pill.jsonc
+ls -la ~/Documents/archyde-issues-fixes/
 ```
 
 ---

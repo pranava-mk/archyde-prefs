@@ -484,8 +484,13 @@ zed                   # Zed editor
 `~/.config/cfg_backups/` - Contains configuration backups
 
 ### Dotfiles Management
-- HyDE configurations are version-controlled in `~/.config/hypr/`
-- Consider using dotfiles repository for broader system configs
+- Managed via GNU Stow from `~/archyde-prefs/` (git remote: `git@github.com:pranava-mk/archyde-prefs.git`)
+- Stow packages:
+  - `hyprland` → `~/.config/hypr/CLAUDE.md`, `~/.config/waybar/layouts/pranava-split-pill.jsonc`
+  - `claude-global` → `~/.claude/CLAUDE.md`
+  - `archyde-issues-fixes` → `~/Documents/archyde-issues-fixes/`
+- To re-apply all symlinks: `cd ~/archyde-prefs && stow --target ~ hyprland claude-global archyde-issues-fixes`
+- **Waybar**: `pranava-split-pill.jsonc` is the canonical layout — `config.jsonc` is regenerated from it by HyDE's `waybar.py --update`
 
 ---
 
@@ -895,16 +900,19 @@ windowrule = float true, match:class ^(firefox)$
 **Full documentation**: `~/Documents/system-issues-fixes/2026-02-13_hyprland-windowrules-syntax-v053.md`
 
 ### Issue: Waybar layout reset after theme change
-**Solution**: HyDE auto-generates waybar config when switching themes, overwriting customizations
+**Resolved** (2026-02-25): Layout is now git-tracked and symlinked — changes persist automatically.
 
-**Restore personal config**:
+**How it works**:
+- Layout file: `~/.config/waybar/layouts/pranava-split-pill.jsonc` → symlink → `~/archyde-prefs/hyprland/.config/waybar/layouts/pranava-split-pill.jsonc`
+- HyDE state (`~/.local/state/hyde/staterc`) has `WAYBAR_LAYOUT_PATH` pointing to this file, so it always loads the right layout
+- `config.jsonc` is regenerated from the layout file by `waybar.py --update` — edit the layout file, not `config.jsonc`
+
+**To restore on new machine**:
 ```bash
-# Restore from Dec 18 backup (split pill layout)
-cp ~/.config/cfg_backups/251218_02h13m21s/.config/waybar/config.jsonc ~/.config/waybar/
+cd ~/archyde-prefs && stow --target ~ hyprland
+~/.local/lib/hyde/waybar.py --set pranava-split-pill
 systemctl --user restart hyde-Hyprland-bar.service
 ```
-
-**Prevention**: Version control waybar config or note the backup date
 
 ---
 
