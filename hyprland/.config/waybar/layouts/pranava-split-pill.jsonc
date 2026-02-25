@@ -35,7 +35,6 @@
     "group/pill#center": {
         "orientation": "inherit",
         "modules": [
-            "custom/mediaplayer",
             "custom/cava",
             "idle_inhibitor",
             "clock"
@@ -86,15 +85,15 @@
         "format": "{}"
     },
 
-    // battery: always show percentage, no click-toggle
+    // battery: format-alt mirrors format so click-toggle has no visible effect
     "battery": {
         "states": {},
         "format": "{icon} {capacity}%",
+        "format-alt": "{icon} {capacity}%",
         "rotate": 0,
         "format-charging": " {capacity}%",
         "format-plugged": " {capacity}%",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-        "on-click": ""
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
 
     // speaker + mic pill
