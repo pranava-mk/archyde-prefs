@@ -31,7 +31,7 @@ LEFT                          CENTER                RIGHT
 |---|---|---|
 | `pill#sysinfo` | `cpu`, `memory` | CPU % (10s interval), RAM used GB (30s interval) |
 | `pill#updates` | `custom/updates` | Pending pacman+AUR update count. Polls once per day. Click to open updater. Tooltip shows package list |
-| `pill#network` | `network`, `custom/vpn` | WiFi icon; VPN shows `󰖂 <connection-name>` when active, empty when off. Polls nmcli every 5s |
+| `pill#network` | `network` | WiFi icon; native lock symbol appears when VPN is active. No bandwidth display on click |
 | `pill#audio` | `pulseaudio`, `pulseaudio#microphone` | Speaker + mic volume |
 | `pill#battery` | `battery` | Always shows `icon + %`. See override below |
 | `pill#tray` | `tray` | System tray icons |
@@ -56,15 +56,17 @@ These are defined directly in `pranava-split-pill.jsonc` and take precedence ove
 `format-alt` must match `format` — Waybar's battery module has a built-in C-level click toggle
 between `format` and `format-alt` that `on-click: ""` does NOT suppress.
 
-### custom/vpn
+### network
 ```jsonc
-"custom/vpn": {
-    "exec": "nmcli -t -f NAME,TYPE connection show --active | awk -F: '$2~/vpn|wireguard/{print \"󰖂 \" $1}'",
-    "interval": 5,
-    "format": "{}"
+"network": {
+    "format-wifi": "\uf1eb ",
+    "format-ethernet": "\udb80\ude00 ",
+    "format-disconnected": "\udb81\uddaa ",
+    ...
 }
 ```
-Works with NetworkManager VPN connections and WireGuard. Empty output when no VPN active.
+`format-alt` removed — clicking the wifi icon no longer toggles bandwidth display.
+Native lock symbol in the wifi icon indicates VPN is active; no separate vpn module needed.
 
 ---
 
@@ -78,6 +80,8 @@ Works with NetworkManager VPN connections and WireGuard. Empty output when no VP
 | `custom/hyprsunset` | Broken / non-functional on this system |
 | `bluetooth` | Removed from network pill — icon showed connected device count with no way to suppress it without the override being ignored |
 | `custom/mediaplayer` | Clutters center pill; YouTube Music / Spotify controllable via media keys |
+| `custom/vpn` | Redundant — wifi module natively shows a lock symbol when VPN is active |
+| `network#bandwidth` | Not needed — network speed display removed |
 | `power-profiles-daemon` | Using `auto-cpufreq` instead |
 
 ---
