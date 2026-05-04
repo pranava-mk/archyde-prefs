@@ -1,124 +1,67 @@
-# System Documentation Repository
+# archyde-prefs
 
-Centralized documentation for Arch Linux system configuration and troubleshooting.
+GNU Stow dotfiles repo for pranava-mk — Arch Linux + HyDE setup.
 
-**Owner**: pranava-mk
-**System**: archy (Arch Linux)
-**Last Updated**: 2026-02-13
+**Remote**: `git@github.com:pranava-mk/archyde-prefs.git`
 
 ---
 
-## Structure
+## Stow packages
 
-```
-docs-repo/
-├── hyprland/          # Hyprland configuration documentation
-├── system-issues/     # System issue documentation and fixes
-└── claude-global/     # Global Claude Code configuration
-```
-
----
-
-## Symlink Setup
-
-This repository contains the actual documentation files. Symlinks point from their original locations:
-
-### Hyprland Configuration
-- **Repository**: `~/docs-repo/hyprland/CLAUDE.md`
-- **Symlink**: `~/.config/hypr/CLAUDE.md` → `~/docs-repo/hyprland/CLAUDE.md`
-
-### System Issues
-- **Repository**: `~/docs-repo/system-issues/*.md`
-- **Symlink**: `~/Documents/system-issues-fixes/*.md` → `~/docs-repo/system-issues/*.md`
-
-### Claude Global Config
-- **Repository**: `~/docs-repo/claude-global/CLAUDE.md`
-- **Symlink**: `~/.claude/CLAUDE.md` → `~/docs-repo/claude-global/CLAUDE.md`
+| Package | Deploys to | Contents |
+|---|---|---|
+| `hyprland` | `~/.config/` | Hyprland configs, Waybar layout, Zsh user config |
+| `kitty` | `~/.config/` | Kitty terminal config |
+| `wireplumber` | `~/.config/` | ALSA rules (Creative Pebble channel swap fix) |
+| `fontconfig` | `~/.config/` | Noto Indic/script font fallback rules |
+| `claude-global` | `~/.claude/` | Global Claude Code config |
+| `archyde-issues-fixes` | `~/Documents/` | System incident logs |
 
 ---
 
-## Usage
-
-### Making Changes
-
-Edit files in their original locations (symlinks will update the repo files):
+## Fresh install restore
 
 ```bash
-# Edit Hyprland docs
-micro ~/.config/hypr/CLAUDE.md
-
-# Edit global Claude config
-micro ~/.claude/CLAUDE.md
-
-# Add new system issue
-micro ~/Documents/system-issues-fixes/2026-XX-XX_new-issue.md
+git clone git@github.com:pranava-mk/archyde-prefs.git ~/archyde-prefs
+cd ~/archyde-prefs
+stow --target ~ hyprland kitty wireplumber fontconfig claude-global archyde-issues-fixes
+fc-cache -fv
 ```
 
-### Syncing Changes
+---
+
+## Daily workflow
+
+Edit files at their live locations — symlinks write through to this repo.
 
 ```bash
-cd ~/docs-repo
-
-# Check what changed
-git status
-git diff
-
-# Commit changes
+cd ~/archyde-prefs
 git add -A
-git commit -m "Update documentation"
-
-# Push to remote (if configured)
+git commit -m "description"
 git push
 ```
 
 ---
 
-## Git Remote Setup
-
-To sync with GitHub/GitLab:
+## Adding a new config to tracking
 
 ```bash
-cd ~/docs-repo
+# 1. Mirror the path inside the package
+mkdir -p ~/archyde-prefs/<package>/<path-relative-to-home>/
 
-# Add remote repository
-git remote add origin git@github.com:pranava-mk/arch-docs.git
+# 2. Copy the file in
+cp ~/path/to/file ~/archyde-prefs/<package>/<path-relative-to-home>/
 
-# Push to remote
-git branch -M main
-git push -u origin main
+# 3. Remove the original
+rm ~/path/to/file
+
+# 4. Stow creates the symlink
+cd ~/archyde-prefs && stow --target ~ <package>
+
+# 5. Commit
+git add -A && git commit -m "feat: track <file>" && git push
 ```
 
 ---
 
-## Restore from Repository
-
-If reinstalling or setting up on another machine:
-
-```bash
-# Clone repository
-git clone git@github.com:pranava-mk/arch-docs.git ~/docs-repo
-
-# Create symlinks
-ln -sf ~/docs-repo/hyprland/CLAUDE.md ~/.config/hypr/CLAUDE.md
-ln -sf ~/docs-repo/claude-global/CLAUDE.md ~/.claude/CLAUDE.md
-
-# Create system-issues directory and symlink files
-mkdir -p ~/Documents/system-issues-fixes
-cd ~/docs-repo/system-issues
-for file in *.md; do
-    ln -sf ~/docs-repo/system-issues/"$file" ~/Documents/system-issues-fixes/"$file"
-done
-```
-
----
-
-## Notes
-
-- **Hyprland config** (`~/.config/hypr/`) is also git-tracked separately
-- This repo focuses on **documentation only**
-- Actual config files remain in their original locations
-- Symlinks ensure single source of truth
-
----
-
-**Repository**: https://github.com/pranava-mk/arch-docs (configure remote)
+See `CLAUDE.md` for full workspace map and navigation rules.
