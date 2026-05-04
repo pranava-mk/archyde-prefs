@@ -274,33 +274,30 @@ Fuzzy finder for command-line
 
 ```zsh
 export PATH=$HOME/bin:$HOME/.local/bin:$HOME/.npm-global/bin:/usr/local/bin:$PATH
-export EDITOR='micro'
-export VISUAL='micro'
+export EDITOR='zed'
+export VISUAL='zed'
 export ZSH="$HOME/.oh-my-zsh"
-```
-
-### Shell Integrations
-- **Kiro**: AI coding assistant shell integration
-```zsh
-[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 ```
 
 ---
 
 ## Editors & IDEs
 
-### Primary Editor: Micro
+### Terminal Editor: Micro
 
 **Default editor for**:
-- Shell (`$EDITOR` and `$VISUAL`)
 - Git commits (`core.editor`)
 
 **Config**: `~/.config/micro/`
 
-### Available IDEs
-- **Visual Studio Code** (`visual-studio-code-bin`)
-- **Cursor** (`cursor-bin`) - AI code editor
-- **Kiro** (`kiro-bin`) - AI coding assistant
+### Default IDE: Zed
+
+**Default for**:
+- Shell (`$EDITOR` and `$VISUAL`)
+
+**Binary**: `~/bin/zed`
+
+### Available Editors
 - **Vim** - Available as backup editor
 
 ---
@@ -950,6 +947,7 @@ Each incident is documented with:
 - `2026-02-13_hyprland-config-errors.md` - Persistent error notifications from invalid source statements
 - `2026-02-13_hyprland-windowrules-syntax-v053.md` - 403+ config errors from Hyprland 0.53 syntax rewrite
 - `2026-02-20_flameshot-kvantum-crash.md` - Flameshot Kvantum/Wayland crash, switched to grimblast+satty
+- `2026-03-05_creative-pebble-channel-swap.md` - Creative Pebble speakers physically placed with channels reversed; fixed via WirePlumber ALSA rules
 
 **Git remote**: set up with `git remote add origin <your-remote>` once you create the repo on GitHub.
 
