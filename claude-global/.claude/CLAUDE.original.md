@@ -1,19 +1,19 @@
 # CLAUDE.md
 
-This file guide Claude Code (claude.ai/code) when work with code in this repo.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ---
 
 ## Claude Behavior Instructions
 
-- **Always benchmark before and after performance-related changes.** Run benchmark before touch anything, record result, make change, benchmark again to show actual improvement.
+- **Always benchmark before and after performance-related changes.** Run the relevant benchmark command before touching anything, record the result, make the change, then benchmark again to show the actual improvement.
 
 ---
 
 # Arch Linux System Configuration
 ## Personal Setup Documentation for pranava-mk
 
-Capture full config of this Arch install for reproducibility + future automation.
+This document captures the complete configuration of this Arch Linux installation for reproducibility and future automation.
 
 ---
 
@@ -33,8 +33,8 @@ Capture full config of this Arch install for reproducibility + future automation
 ## Package Management
 
 ### Package Managers
-- **pacman**: Official Arch repos
-- **paru**: AUR helper (default config)
+- **pacman**: Official Arch repositories
+- **paru**: AUR helper (default configuration)
 - **snapd**: Snap package manager (enabled)
 
 ### Package Statistics
@@ -79,7 +79,7 @@ parallel, tree, ncdu, wget, unzip, bc
 ## Desktop Environment: HyDE
 
 ### Overview
-HyDE (Hyprland Desktop Environment) — heavily customized Hyprland setup with theming system.
+HyDE (Hyprland Desktop Environment) - a heavily customized Hyprland setup with theming system.
 
 **Project**: [prasanthrangan/hyprdots](https://github.com/prasanthrangan/hyprdots)
 
@@ -143,7 +143,7 @@ input {
 ```
 
 #### Window Dimming: hyprdim
-Native Hyprland dimming disabled. Use **hyprdim v3.0.1** for temporary dim on focus switch.
+Native Hyprland dimming is disabled. Using **hyprdim v3.0.1** for temporary dimming on focus switch.
 
 **Autostart** (in hyprland.conf):
 ```bash
@@ -151,10 +151,10 @@ exec-once = hyprdim --strength 0.7 --duration 800
 ```
 
 **Behavior**:
-- Dim briefly when switch windows, then fade back
-- Solo windows no dim (hyprdim v3.x default)
-- `--strength 0.7`: Strong dim intensity (0.0-1.0 range)
-- `--duration 800`: Remove dim after 800ms
+- Dims briefly when switching windows, then fades back
+- Solo windows don't dim (hyprdim v3.x default behavior)
+- `--strength 0.7`: Strong dimming intensity (0.0-1.0 range)
+- `--duration 800`: Removes dim after 800ms
 
 **Restart dimming**:
 ```bash
@@ -180,21 +180,21 @@ Located in: `~/.themes/` and `~/.local/share/themes/`
 - Edge-Runner
 - Frosted-Glass
 
-**Theme Management**: HyDE provide `hydectl` for theme switching
+**Theme Management**: HyDE provides `hydectl` for theme switching
 
 ### Wallpaper Management
 
 **Multi-monitor wallpaper fix**:
-If DP-1 show black wallpaper after connect:
+If DP-1 shows black wallpaper after connecting:
 ```bash
 ~/.local/lib/hyde/wallpaper.sh --start --backend swww --global
 ```
 
 ### Waybar (Status Bar)
 
-**Important**: Waybar managed by systemd user service
+**Important**: Waybar is managed by systemd user service
 - Service: `hyde-Hyprland-bar.service`
-- No start waybar manually (cause duplicate bars)
+- Don't start waybar manually (causes duplicate bars)
 - Restart: `systemctl --user restart hyde-Hyprland-bar.service`
 
 **Layout**: Personal split-pill layout (`~/.config/waybar/config.jsonc`)
@@ -247,28 +247,28 @@ anifetch ~/.local/share/anifetch/venv/lib/python3.13/site-packages/anifetch/asse
 **Plugins**: git
 
 **Config Files**:
-- `~/.zshrc` - Main zsh config
-- `~/.zshenv` - Env vars (sources `$XDG_CONFIG_HOME/zsh/.zshenv`)
+- `~/.zshrc` - Main zsh configuration
+- `~/.zshenv` - Environment variables (sources `$XDG_CONFIG_HOME/zsh/.zshenv`)
 
 ### Shell Tools & Enhancements
 
 #### Atuin (Command History)
-Enhanced shell history with sync
+Enhanced shell history with sync capabilities
 ```zsh
 eval "$(atuin init zsh)"
 ```
 
 #### Zoxide (Smarter cd)
-Fast dir jumper, learns habits
+Fast directory jumper that learns your habits
 ```zsh
 eval "$(zoxide init zsh)"
 ```
 
 #### Starship Prompt
-Fast, customizable prompt (installed, not active in .zshrc)
+Fast, customizable prompt (installed but not actively configured in .zshrc)
 
 #### FZF
-Fuzzy finder for CLI
+Fuzzy finder for command-line
 
 ### Shell Environment Variables
 
@@ -298,7 +298,7 @@ export ZSH="$HOME/.oh-my-zsh"
 **Binary**: `~/bin/zed`
 
 ### Available Editors
-- **Vim** - Backup editor
+- **Vim** - Available as backup editor
 
 ---
 
@@ -333,7 +333,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ### Programming Languages & Runtimes
 - **Node.js**: npm 11.6.2-1 (global packages in `~/.npm-global/`)
-- **Python**: python-pipx for tool install
+- **Python**: python-pipx for tool installation
 - **Java**: jre-openjdk 21.u35-3
 - **Go**: Installed with config in `~/.config/go/`
 
@@ -342,7 +342,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ### CLI Development Tools
 - **jq**: JSON processor
-- **bat**: Better `cat` with syntax highlight
+- **bat**: Better `cat` with syntax highlighting
 - **tldr**: Simplified man pages
 - **yazi**: Terminal file manager
 
@@ -369,24 +369,24 @@ pipewire-pulse.socket           # Pulseaudio compatibility
 ```
 
 ### Auto-cpufreq
-Automatic CPU frequency + power management for laptops
+Automatic CPU frequency and power management for laptops
 - Service: `auto-cpufreq.service`
-- Config location: `~/auto-cpufreq/` (git repo clone)
+- Config location: `~/auto-cpufreq/` (git repository clone)
 
 ---
 
 ## Utilities & Applications
 
 ### System Monitoring
-- **btop**: Resource monitor (htop alternative)
-- **fastfetch**: System info display
+- **btop**: Resource monitor (alternative to htop)
+- **fastfetch**: System information display
 
 ### Screenshots & Screen Capture
 - **grimblast**: Screenshot tool (HyDE bundled, native Wayland) — replaces Flameshot
 - **satty**: Screenshot annotation (opens after capture for markup)
 - **grim**: Wayland screenshot utility (used by grimblast)
 - **slurp**: Select screen region (used by grimblast)
-- ~~**Flameshot**~~: Removed — crash from Kvantum/XWayland segfault on Hyprland (see `~/Documents/archyde-issues-fixes/2026-02-20_flameshot-kvantum-crash.md`)
+- ~~**Flameshot**~~: Removed — crashes due to Kvantum/XWayland segfault on Hyprland (see `~/Documents/archyde-issues-fixes/2026-02-20_flameshot-kvantum-crash.md`)
 
 ### Clipboard Management
 - **cliphist**: Clipboard history for Wayland
@@ -443,7 +443,7 @@ zed                   # Zed editor
 ### Qt Configuration
 - **Qt5**: qt5ct for Qt5 theming
 - **Qt6**: qt6ct for Qt6 theming
-- **Kvantum**: Theme engine for Qt apps (Qt5 & Qt6)
+- **Kvantum**: Theme engine for Qt applications (Qt5 & Qt6)
 
 ### GTK Configuration
 - **GTK-3.0**: `~/.config/gtk-3.0/`
@@ -458,7 +458,7 @@ zed                   # Zed editor
 
 ### Theme Tools
 - **nwg-look**: GTK theme switcher for Wayland
-- **nwg-displays**: Display config for Wayland
+- **nwg-displays**: Display configuration for Wayland
 
 ### Font Configuration
 - **Emoji Font**: noto-fonts-emoji
@@ -468,17 +468,17 @@ zed                   # Zed editor
 ## Security & Privacy
 
 ### Tor
-- **tor**: Anonymity network (installed, not auto-started)
+- **tor**: Anonymity network (installed but not auto-started)
 
 ### Firewall
-- (Not configured - default Arch setup)
+- (Not explicitly configured - default Arch setup)
 
 ---
 
 ## Additional Configuration Files
 
 ### Backup Location
-`~/.config/cfg_backups/` - Config backups
+`~/.config/cfg_backups/` - Contains configuration backups
 
 ### Dotfiles Management
 - Managed via GNU Stow from `~/archyde-prefs/` (git remote: `git@github.com:pranava-mk/archyde-prefs.git`)
@@ -486,8 +486,8 @@ zed                   # Zed editor
   - `hyprland` → `~/.config/hypr/CLAUDE.md`, `~/.config/waybar/layouts/pranava-split-pill.jsonc`
   - `claude-global` → `~/.claude/CLAUDE.md`
   - `archyde-issues-fixes` → `~/Documents/archyde-issues-fixes/`
-- Re-apply all symlinks: `cd ~/archyde-prefs && stow --target ~ hyprland claude-global archyde-issues-fixes`
-- **Waybar**: `pranava-split-pill.jsonc` = canonical layout — `config.jsonc` regenerated from it by HyDE's `waybar.py --update`
+- To re-apply all symlinks: `cd ~/archyde-prefs && stow --target ~ hyprland claude-global archyde-issues-fixes`
+- **Waybar**: `pranava-split-pill.jsonc` is the canonical layout — `config.jsonc` is regenerated from it by HyDE's `waybar.py --update`
 
 ---
 
@@ -853,7 +853,7 @@ btop
 ```
 
 ### Issue: Duplicate Waybar instances
-**Solution**: Restart systemd service instead of launch manually
+**Solution**: Restart systemd service instead of launching manually
 ```bash
 pkill waybar  # Kill any manual instances
 systemctl --user restart hyde-Hyprland-bar.service
@@ -881,7 +881,7 @@ hyprctl reload
 ```
 
 ### Issue: Hyprland 0.53 window rules syntax errors (403+ errors)
-**Solution**: Hyprland 0.53 fully rewrote window rule syntax. Must convert to new format.
+**Solution**: Hyprland 0.53 completely rewrote window rule syntax. Must convert to new format.
 
 **Symptoms**: Hundreds of "invalid field" errors in windowrules.conf
 
@@ -897,12 +897,12 @@ windowrule = float true, match:class ^(firefox)$
 **Full documentation**: `~/Documents/system-issues-fixes/2026-02-13_hyprland-windowrules-syntax-v053.md`
 
 ### Issue: Waybar layout reset after theme change
-**Resolved** (2026-02-25): Layout now git-tracked + symlinked — changes persist automatically.
+**Resolved** (2026-02-25): Layout is now git-tracked and symlinked — changes persist automatically.
 
 **How it works**:
 - Layout file: `~/.config/waybar/layouts/pranava-split-pill.jsonc` → symlink → `~/archyde-prefs/hyprland/.config/waybar/layouts/pranava-split-pill.jsonc`
-- HyDE state (`~/.local/state/hyde/staterc`) has `WAYBAR_LAYOUT_PATH` pointing to this file, so always loads right layout
-- `config.jsonc` regenerated from layout file by `waybar.py --update` — edit layout file, not `config.jsonc`
+- HyDE state (`~/.local/state/hyde/staterc`) has `WAYBAR_LAYOUT_PATH` pointing to this file, so it always loads the right layout
+- `config.jsonc` is regenerated from the layout file by `waybar.py --update` — edit the layout file, not `config.jsonc`
 
 **To restore on new machine**:
 ```bash
@@ -915,10 +915,10 @@ systemctl --user restart hyde-Hyprland-bar.service
 
 ## System Issues Documentation
 
-Critical system issues + resolutions documented in:
+Critical system issues and their resolutions are documented in:
 `~/Documents/archyde-issues-fixes/` → symlinked via stow from `~/archyde-prefs/archyde-issues-fixes/`
 
-This dir = **separate git repo** — commit new logs after add.
+This directory is a **separate git repository** — commit new logs after adding them.
 
 ```bash
 cd ~/Documents/archyde-issues-fixes
@@ -926,21 +926,21 @@ git add . && git commit -m "log: <brief description>"
 git log --oneline   # view history
 ```
 
-Dir includes:
-- **Boot failures** + recovery procedures
-- **Configuration errors** + fixes
-- **System upgrade issues** + resolutions
+This directory includes:
+- **Boot failures** and recovery procedures
+- **Configuration errors** and fixes
+- **System upgrade issues** and resolutions
 - **Troubleshooting guides** for recurring problems
 
-Each incident documented with:
-- Symptoms + root cause analysis
+Each incident is documented with:
+- Symptoms and root cause analysis
 - Step-by-step resolution procedures
-- Lessons learned + prevention strategies
+- Lessons learned and prevention strategies
 - Verification commands
 
 **Naming convention**: `YYYY-MM-DD_short-description.md`
 
-**When Claude fix system issue**, always create log file here + commit.
+**When Claude fixes a system issue**, always create a log file here and commit it.
 
 **Recent incidents**:
 - `2026-02-13_boot-failure-after-upgrade.md` - Boot crash after kernel upgrade, missing intel-ucode
@@ -949,23 +949,23 @@ Each incident documented with:
 - `2026-02-20_flameshot-kvantum-crash.md` - Flameshot Kvantum/Wayland crash, switched to grimblast+satty
 - `2026-03-05_creative-pebble-channel-swap.md` - Creative Pebble speakers physically placed with channels reversed; fixed via WirePlumber ALSA rules
 
-**Git remote**: set up with `git remote add origin <your-remote>` once you create repo on GitHub.
+**Git remote**: set up with `git remote add origin <your-remote>` once you create the repo on GitHub.
 
 ---
 
 ## Documentation Philosophy
 
 This CLAUDE.md serves as:
-1. **System snapshot**: Exact state of current install
-2. **Preferences registry**: All customizations + why they exist
-3. **Automation blueprint**: Foundation for install script
-4. **Troubleshooting guide**: Common issues + solutions
-5. **Knowledge transfer**: Enable future Claude (or humans) to understand this setup
+1. **System snapshot**: Exact state of current installation
+2. **Preferences registry**: All customizations and why they exist
+3. **Automation blueprint**: Foundation for installation script
+4. **Troubleshooting guide**: Common issues and solutions
+5. **Knowledge transfer**: Enable future instances of Claude (or humans) to understand this setup
 
 ### Maintenance
-- Update this file when make significant system changes
-- Document new preferences as configured
-- Track theme changes if switch away from Vanta-Black
+- Update this file when making significant system changes
+- Document new preferences as they're configured
+- Track theme changes if switching away from Vanta-Black
 - Note any new AUR packages or custom scripts
 - Keep "Known Issues" section current
 
@@ -974,10 +974,10 @@ This CLAUDE.md serves as:
 ## Future Enhancements
 
 ### Planned Improvements
-- [ ] Create automated install script based on this doc
-- [ ] Set up dotfiles repo with version control
-- [ ] Add network/firewall hardening config
-- [ ] Document browser extensions + configs
+- [ ] Create automated installation script based on this documentation
+- [ ] Set up dotfiles repository with version control
+- [ ] Add network/firewall hardening configuration
+- [ ] Document browser extensions and configurations
 - [ ] Create backup/restore scripts for critical configs
 - [x] Add keybinding reference (link to HyDE keybindings) ✅
 - [ ] Document performance tuning (auto-cpufreq settings)
