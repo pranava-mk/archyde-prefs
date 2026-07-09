@@ -13,6 +13,7 @@ Tracks system issue documentation — each file records a specific failure, its 
 | `2026-02-20_flameshot-kvantum-crash.md` | Flameshot Kvantum/Wayland crash — switched to grimblast+satty |
 | `2026-02-26_zsh-tools-not-loading-default.md` | fzf/atuin not loading — ZDOTDIR + load order root cause |
 | `2026-03-05_creative-pebble-channel-swap.md` | Creative Pebble speakers L/R reversed — fixed via WirePlumber ALSA |
+| `2026-07-10_ani-cli-aa-crypto-missing.md` | ani-cli "no valid sources" — AllAnime aaReq crypto change (PR #1772) + history corruption fix |
 
 ## Routing table
 
@@ -25,7 +26,7 @@ Tracks system issue documentation — each file records a specific failure, its 
 ## Conventions
 - Naming: `YYYY-MM-DD_short-description.md`.
 - Live path: `~/Documents/archyde-issues-fixes/` (stow symlink).
-- After adding a log: commit to this repo AND the issues-fixes sub-repo if it has its own remote.
+- After adding a log: `cd ~/archyde-prefs && git add archyde-issues-fixes/ && git commit && git push`. This folder is a stow package **inside** `archyde-prefs` — it is NOT a separate repo.
 - Each log must contain: symptoms, root cause, resolution steps, verification commands.
 
 ## Available skills

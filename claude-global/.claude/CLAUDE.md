@@ -916,13 +916,14 @@ systemctl --user restart hyde-Hyprland-bar.service
 ## System Issues Documentation
 
 Critical system issues + resolutions documented in:
-`~/Documents/archyde-issues-fixes/` → symlinked via stow from `~/archyde-prefs/archyde-issues-fixes/`
+`~/Documents/archyde-issues-fixes/` → stow symlink into the **`archyde-prefs`** repo
+(real path: `~/archyde-prefs/archyde-issues-fixes/Documents/archyde-issues-fixes/`).
 
-This dir = **separate git repo** — commit new logs after add.
+This dir is **NOT its own repo** — it's the `archyde-issues-fixes` stow package inside `archyde-prefs`. Commit logs from the repo:
 
 ```bash
-cd ~/Documents/archyde-issues-fixes
-git add . && git commit -m "log: <brief description>"
+cd ~/archyde-prefs
+git add archyde-issues-fixes/ && git commit -m "log: <brief description>" && git push
 git log --oneline   # view history
 ```
 
@@ -940,7 +941,7 @@ Each incident documented with:
 
 **Naming convention**: `YYYY-MM-DD_short-description.md`
 
-**When Claude fix system issue**, always create log file here + commit.
+**When Claude fix system issue**, always create log file here + commit (from `~/archyde-prefs`, then push).
 
 **Recent incidents**:
 - `2026-02-13_boot-failure-after-upgrade.md` - Boot crash after kernel upgrade, missing intel-ucode
@@ -948,8 +949,9 @@ Each incident documented with:
 - `2026-02-13_hyprland-windowrules-syntax-v053.md` - 403+ config errors from Hyprland 0.53 syntax rewrite
 - `2026-02-20_flameshot-kvantum-crash.md` - Flameshot Kvantum/Wayland crash, switched to grimblast+satty
 - `2026-03-05_creative-pebble-channel-swap.md` - Creative Pebble speakers physically placed with channels reversed; fixed via WirePlumber ALSA rules
+- `2026-07-10_ani-cli-aa-crypto-missing.md` - ani-cli "no valid sources" from AllAnime aaReq crypto change (upstream PR #1772); + histfile corruption fix
 
-**Git remote**: set up with `git remote add origin <your-remote>` once you create repo on GitHub.
+**Git remote**: `git@github.com:pranava-mk/archyde-prefs.git` (shared with all dotfiles). No separate remote needed.
 
 ---
 
