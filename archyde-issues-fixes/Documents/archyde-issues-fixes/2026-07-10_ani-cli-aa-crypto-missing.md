@@ -11,7 +11,7 @@
 | Package | Version |
 |---|---|
 | ani-cli (pacman) | 4.14-1 |
-| ani-cli (~/bin, patched) | 4.14-1 + PR #1772 |
+| ani-cli (~/bin, patched) | 4.14-1 + PR #1772 + local update_history escape fix |
 | nodejs | v26.4.0 |
 
 ---
@@ -55,6 +55,8 @@ Applied upstream ani-cli PR #1772 ("handle AllAnime aaReq token") manually to `~
 
 4. **`dep_ch "node"`**: Added nodejs as an explicit dependency check (new runtime dependency).
 
+5. **`update_history()` hardening** (added while debugging `-c`, see Follow-up below): escape `&`, `|`, `\` in the title before the `sed` replacement so special-char titles can't corrupt the history file.
+
 ---
 
 ## Verification
@@ -75,10 +77,41 @@ Results:
 
 ---
 
+## Follow-up: `-c` continue-watching + history file corruption
+
+After the crypto fix, `ani-cli -c` (continue from history) was still reported "not working". Investigation:
+
+- **Not a source bug.** `-c` fetches sources through the same (now-fixed) path; a non-interactive run (`ani-cli -c -S 1`, debug player) pulled a real link successfully.
+- **"Blue Lock Season 2" confusion.** AllAnime has no entry named "Blue Lock Season 2" — it's listed as **"Blue Lock vs. U-20 Japan"** (id `9TPHwqqZSYGduAwQk`, 14 sub eps). Picking plain "Blue Lock" (S1) looked broken.
+- **Corrupted history line.** `~/.local/state/ani-cli/ani-hsts` line 8 had 5 tab-fields instead of 3 — two records merged into one.
+
+### Root cause of the history corruption
+
+`update_history()` rewrites the matching line with `sed "s|...|${ep_no}\t${id}\t${title}|"`. The show
+"Shinjiteita Nakama-tachi ... Fukushuu **&** Zamaa! Shimasu!" has an `&` in its title. In a `sed`
+replacement, an unescaped `&` expands to the **whole matched line**, so the record got duplicated/merged.
+Any title containing `&`, `|`, or `\` would corrupt the history the same way.
+
+### Fix
+
+1. **Repaired the history file** — replaced the mangled line 8 with a single clean 3-field record.
+   Backup: `~/.local/state/ani-cli/ani-hsts.bak.20260710`.
+2. **Hardened `update_history()`** (edit #5 above) — escape special chars before the substitution:
+   ```sh
+   esc_title=$(printf '%s' "$title" | sed 's/[\\&|]/\\&/g')
+   ```
+   Verified: a title `Foo & Bar | Baz` now stores as a clean 3-field line.
+
+Note: this is an upstream ani-cli bug (not yet fixed upstream), independent of the AllAnime change.
+
+---
+
 ## Rollback
 
 ```bash
 cp /home/cruxx/bin/ani-cli.bak /home/cruxx/bin/ani-cli
+# history file, if needed:
+cp ~/.local/state/ani-cli/ani-hsts.bak.20260710 ~/.local/state/ani-cli/ani-hsts
 ```
 
 ---
