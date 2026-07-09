@@ -80,7 +80,7 @@ windowrule = <property> <value>, match:<type> <pattern>
 **Key changes from old syntax**:
 - ✅ All matchers use `match:` prefix (`match:class`, `match:title`)
 - ✅ Boolean properties need explicit values (`float true`, `pin true`)
-- ✅ `idle_inhibit fullscreen true` (replaces old `idleinhibit`)
+- ✅ `idle_inhibit fullscreen` (replaces old `idleinhibit`; `true` suffix removed in Hyprland 0.55)
 - ✅ Layer rules use `match:namespace` prefix
 - ❌ `initialTitle` removed (use `match:title` instead)
 - ❌ `keepaspectratio` removed
@@ -95,7 +95,7 @@ windowrule = float true, match:class ^(vlc)$
 windowrule = opacity 0.90 $& 0.90 $& 1, match:class ^(firefox)$
 
 # Idle inhibit for media players
-windowrule = idle_inhibit fullscreen true, match:class ^(.*mpv.*)$
+windowrule = idle_inhibit fullscreen, match:class ^(.*mpv.*)$
 
 # Layer rules
 layerrule = blur true, match:namespace rofi
