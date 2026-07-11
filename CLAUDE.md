@@ -7,12 +7,16 @@ GNU Stow-managed dotfiles and config repo for pranava-mk's Arch Linux + HyDE set
 
 | Workspace | Folder | What lives here |
 |-----------|--------|-----------------|
-| Desktop environment | `hyprland/` | Hyprland WM, Waybar, Zsh user config |
+| Desktop environment | `hyprland/` | Hyprland WM, Waybar, Zsh user config (user.zsh) |
 | Terminal | `kitty/` | Kitty terminal emulator config |
 | Audio | `wireplumber/` | WirePlumber ALSA hardware rules |
 | Fonts | `fontconfig/` | Fontconfig script-fallback rules |
 | AI assistant | `claude-global/` | Global Claude Code config (CLAUDE.md) |
 | Incident logs | `archyde-issues-fixes/` | System issue documentation |
+| Shell | `shell/` | Home dotfiles + Zsh user files (.zshenv, .bashrc, .profile, .npmrc, .gitconfig, .config/zsh/{.zshrc,.zshenv,conf.d,functions}) |
+| App configs | `apps/` | Per-app user configs: dunst, micro, starship, atuin, yazi, fastfetch, btop, qt5ct, qt6ct, Kvantum, zed, clipse, vim |
+| User scripts | `bin/` | ~/bin scripts: openclaw-sandbox, setup-openclaw-sandbox |
+| Package manifests | `packages/` | pacman + systemd manifests — NOT a stow package |
 | Context files | `_docs/` | Per-workspace context (not stowed) |
 
 ## Naming conventions
@@ -31,10 +35,20 @@ GNU Stow-managed dotfiles and config repo for pranava-mk's Arch Linux + HyDE set
 5. After any change: `cd ~/archyde-prefs && git add -A && git commit -m "..." && git push`.
 
 ## Fresh install restore
+
 ```bash
 git clone git@github.com:pranava-mk/archyde-prefs.git ~/archyde-prefs
 cd ~/archyde-prefs
-stow --target ~ hyprland kitty wireplumber fontconfig claude-global archyde-issues-fixes
+./install.sh
+```
+
+`install.sh` installs packages, gates on HyDE being present (manual step), stows all 9 packages, enables systemd units, and runs `fc-cache -fv`.
+
+**Manual alternative** (stow only, after packages + HyDE are ready):
+
+```bash
+cd ~/archyde-prefs
+stow --target ~ hyprland kitty wireplumber fontconfig claude-global archyde-issues-fixes shell apps bin
 fc-cache -fv
 ```
 
