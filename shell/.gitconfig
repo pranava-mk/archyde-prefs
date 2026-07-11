@@ -1,0 +1,9 @@
+[user]
+	name = Pranava
+	email = 98644231+pranava-mk@users.noreply.github.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[core]
+	editor = zed
