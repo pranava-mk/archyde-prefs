@@ -1,0 +1,11 @@
+auto-cpufreq.service
+bluetooth.service
+getty@.service
+NetworkManager-dispatcher.service
+NetworkManager-wait-online.service
+NetworkManager.service
+proton.VPN.service
+sddm.service
+snapd.apparmor.service
+systemd-timesyncd.service
+tailscaled.service
