@@ -1,0 +1,10 @@
+[opener]
+edit = [
+  { run = 'micro "$@"', desc = "micro", block = true },
+]
+
+[open]
+rules = [
+  { mime = "text/markdown", use = ["edit"] },
+  { mime = "text/*", use = ["edit"] },
+]
