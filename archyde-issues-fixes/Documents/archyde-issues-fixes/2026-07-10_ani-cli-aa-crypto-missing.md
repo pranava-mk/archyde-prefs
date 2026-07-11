@@ -11,7 +11,7 @@
 | Package | Version |
 |---|---|
 | ani-cli (pacman) | 4.14-1 |
-| ani-cli (~/bin, patched) | 4.14-1 + PR #1772 + local update_history escape fix |
+| ani-cli (~/bin, patched) | 4.14-1 + PR #1772 + local update_history escape fix + 2026-07-11 key/buildId rotation fix |
 | nodejs | v26.4.0 |
 
 ---
@@ -103,6 +103,49 @@ Any title containing `&`, `|`, or `\` would corrupt the history the same way.
    Verified: a title `Foo & Bar | Baz` now stores as a clean 3-field line.
 
 Note: this is an upstream ani-cli bug (not yet fixed upstream), independent of the AllAnime change.
+
+---
+
+## Update 2026-07-11: key rotated again — "no valid sources" returns
+
+**Symptom:** same "Episode is released, but no valid sources!". This time the request *succeeds*
+(server returns `tobeparsed`, no `AA_CRYPTO_MISSING`) but the GCM decrypt fails:
+`Error: Unsupported state or unable to authenticate data` (surfaced by removing the `2>/dev/null`
+on the node decrypt — exactly the silenced-error caveat below). AllAnime rotated the payload key.
+
+**Root cause:** PR #1772's hardcoded key `22196fa6…` is stale. The current AllAnime deploy uses
+`sha256("Xot36i3lK3:v1")` = `a254aa27c410f297bd04ba33a0c0df7ff4e706bf3ae27271c6703f84e750f552`
+— i.e. it rotated *back* to the original pre-#1772 v1 secret, while keeping GCM + the aaReq token.
+`buildId` also changed `9` → `20`.
+
+**Fix applied to `~/bin/ani-cli`** (backup `~/bin/ani-cli.bak2`):
+- Key line reverted to derive from the secret (self-documenting, matches AllAnime's JS):
+  ```sh
+  allanime_key="$(printf '%s' 'Xot36i3lK3:v1' | openssl dgst -sha256 -binary | od -A n -t x1 | tr -d ' \n')"
+  ```
+- `buildId` `9` → `20` in the aaReq node payload (both the `payload` JSON and the `iv` string `4128:20:…`).
+
+Verified: `ANI_CLI_PLAYER=debug ani-cli -S 2 -e 1 dandadan` returns a real MP4 link; Blue Lock S2 too.
+
+### How to find the current key/build_id when this recurs (reverse-engineering AllAnime's JS)
+
+The key is `sha256("Xot36i3lK3:v" + N)` and the IV is `sha256(epoch:buildId:qh:ts)[:12]`.
+When it breaks, re-derive from AllAnime's own frontend:
+
+1. `curl -s https://mkissa.to` → grab `"epoch":<n>` and the `/_app/immutable/entry/app.*.js` path.
+2. Fetch `https://cdn.allanime.day/all/mk/_app/immutable/entry/app.*.js`; find the enc chunk via
+   `sed -n 's/.*from"\.\.\(\/chunks\/[^,]*\.js\)";import.*/\1/p'`.
+3. Fetch that chunk (`…/immutable/chunks/XXXX.js`, `--compressed`). In it:
+   - `tp()` builds the secret from char-code arrays: `[88,111,116,51,54]`→`"Xot36"`, `[105,51,108,75,51]`→`"i3lK3"`, then `tp()+":v"+N`. **Key = `sha256` of that.**
+   - `buildId` (`sr="20"` currently); `Gg()` = `subtle.importKey` of the sha256 digest; `o0()` = IV = `sha256(epoch:buildId:qh:ts)[:12]`.
+4. **Fastest check:** fetch any episode response, then brute the version:
+   for `v` in 0..64, `key=sha256("Xot36i3lK3:v"+v)`, try GCM-decrypt the `tobeparsed`. The one that
+   authenticates is the current key. (That's how v1 was recovered on 2026-07-11.)
+
+**Prevention idea (not yet done):** make `~/bin/ani-cli` derive the key/buildId at runtime by
+scraping the JS (like unmerged PR #1774 attempts) so rotations self-heal. Deferred — the scrapers
+are fragile and AllAnime's obfuscation changes; the brute-force-version check above is a reliable
+2-minute manual recovery.
 
 ---
 
