@@ -1,0 +1,65 @@
+#!/bin/bash
+# Secure OpenClaw launcher with Podman + Telegram support
+# All capabilities dropped, read-only filesystem, resource limits enforced
+
+set -euo pipefail
+
+OPENCLAW_DIR="${OPENCLAW_DIR:-$HOME/openclaw}"
+CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/openclaw-sandbox}"
+SECRETS_DIR="$HOME/.secrets/openclaw"
+
+# Ensure config directory exists
+mkdir -p "$CONFIG_DIR"
+
+# Load API keys from secrets (never mounted to container)
+TELEGRAM_TOKEN=""
+ANTHROPIC_KEY=""
+OPENAI_KEY=""
+
+if [[ -f "$SECRETS_DIR/telegram_token" ]]; then
+    TELEGRAM_TOKEN=$(cat "$SECRETS_DIR/telegram_token")
+fi
+
+if [[ -f "$SECRETS_DIR/anthropic_key" ]]; then
+    ANTHROPIC_KEY=$(cat "$SECRETS_DIR/anthropic_key")
+fi
+
+if [[ -f "$SECRETS_DIR/openai_key" ]]; then
+    OPENAI_KEY=$(cat "$SECRETS_DIR/openai_key")
+fi
+
+# Build environment variable arguments
+ENV_ARGS=()
+[[ -n "$TELEGRAM_TOKEN" ]] && ENV_ARGS+=(-e "TELEGRAM_BOT_TOKEN=$TELEGRAM_TOKEN")
+[[ -n "$ANTHROPIC_KEY" ]] && ENV_ARGS+=(-e "ANTHROPIC_API_KEY=$ANTHROPIC_KEY")
+[[ -n "$OPENAI_KEY" ]] && ENV_ARGS+=(-e "OPENAI_API_KEY=$OPENAI_KEY")
+
+# Check if openclaw directory exists
+if [[ ! -d "$OPENCLAW_DIR" ]]; then
+    echo "Warning: OpenClaw directory not found at $OPENCLAW_DIR"
+    echo "Set OPENCLAW_DIR environment variable or create the directory."
+    echo "Continuing without mounting /app..."
+    MOUNT_APP=""
+else
+    MOUNT_APP="-v $OPENCLAW_DIR:/app:ro"
+fi
+
+exec podman run --rm -it \
+    --name openclaw-session \
+    --userns=keep-id \
+    --security-opt no-new-privileges:true \
+    --cap-drop=ALL \
+    --memory=2g \
+    --cpus=2.0 \
+    --pids-limit=256 \
+    --read-only \
+    --tmpfs /tmp:rw,size=512m,mode=1777 \
+    --tmpfs /home/openclaw/.cache:rw,size=256m \
+    --tmpfs /home/openclaw/.npm:rw,size=256m \
+    --tmpfs /home/openclaw/.local:rw,size=256m \
+    $MOUNT_APP \
+    -v "$CONFIG_DIR:/config:rw" \
+    --network=slirp4netns:allow_host_loopback=false \
+    "${ENV_ARGS[@]}" \
+    openclaw-sandbox \
+    "$@"

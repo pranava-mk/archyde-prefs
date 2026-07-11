@@ -1,0 +1,66 @@
+#!/bin/bash
+# Setup script for OpenClaw sandbox environment
+# Run this script to complete the installation
+
+set -euo pipefail
+
+echo "=== OpenClaw Sandbox Setup ==="
+echo
+
+# Check if running as root for package installation
+if [[ $EUID -eq 0 ]]; then
+    echo "[1/4] Installing required packages..."
+    pacman -S --needed --noconfirm podman slirp4netns fuse-overlayfs crun
+else
+    echo "[1/4] Checking packages (run as root to install)..."
+    if ! command -v podman &>/dev/null; then
+        echo "ERROR: podman not installed. Run:"
+        echo "  sudo pacman -S podman slirp4netns fuse-overlayfs crun"
+        exit 1
+    fi
+fi
+
+echo
+echo "[2/4] Verifying user namespace support..."
+if [[ -f /proc/sys/kernel/unprivileged_userns_clone ]]; then
+    val=$(cat /proc/sys/kernel/unprivileged_userns_clone)
+    if [[ "$val" != "1" ]]; then
+        echo "ERROR: User namespaces disabled. Enable with:"
+        echo "  echo 1 | sudo tee /proc/sys/kernel/unprivileged_userns_clone"
+        exit 1
+    fi
+fi
+echo "  User namespaces: OK"
+
+echo
+echo "[3/4] Verifying subuid/subgid configuration..."
+if grep -q "^$(whoami):" /etc/subuid 2>/dev/null; then
+    echo "  subuid: OK"
+else
+    echo "ERROR: No subuid entry. Run:"
+    echo "  sudo usermod --add-subuids 100000-165535 --add-subguids 100000-165535 $(whoami)"
+    exit 1
+fi
+
+echo
+echo "[4/4] Building container image..."
+cd ~/containers
+if podman build -t openclaw-sandbox -f Dockerfile.openclaw .; then
+    echo "  Container image: OK"
+else
+    echo "ERROR: Failed to build container image"
+    exit 1
+fi
+
+echo
+echo "=== Setup Complete ==="
+echo
+echo "Next steps:"
+echo "  1. Add your API keys to ~/.secrets/openclaw/"
+echo "     echo 'YOUR_TOKEN' > ~/.secrets/openclaw/telegram_token"
+echo "     echo 'YOUR_KEY' > ~/.secrets/openclaw/anthropic_key"
+echo
+echo "  2. Create/clone OpenClaw to ~/openclaw"
+echo
+echo "  3. Run: openclaw-sandbox"
+echo
