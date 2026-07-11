@@ -1,8 +1,6 @@
 7zip-natspec
 brave-origin-beta-bin
-http-parser
 hyprdim
-libnatspec
 notion-app-enhanced
 paru-debug
 snapd

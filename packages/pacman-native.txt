@@ -65,8 +65,8 @@ mdp
 micro
 microsoft-edge-stable-bin
 ncdu
-network-manager-applet
 networkmanager
+network-manager-applet
 nmap
 noto-fonts
 noto-fonts-cjk
@@ -92,14 +92,14 @@ pngcrush
 polkit-gnome
 proton-vpn-gtk-app
 python-pipx
+qt5ct
 qt5-graphicaleffects
 qt5-imageformats
 qt5-quickcontrols
 qt5-quickcontrols2
 qt5-wayland
-qt5ct
-qt6-wayland
 qt6ct
+qt6-wayland
 reflector
 rofi
 satty

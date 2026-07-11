@@ -2,10 +2,13 @@ auto-cpufreq.service
 bluetooth.service
 getty@.service
 NetworkManager-dispatcher.service
-NetworkManager-wait-online.service
 NetworkManager.service
+NetworkManager-wait-online.service
 proton.VPN.service
+remote-fs.target
 sddm.service
 snapd.apparmor.service
+snapd.socket
 systemd-timesyncd.service
+systemd-userdbd.socket
 tailscaled.service
